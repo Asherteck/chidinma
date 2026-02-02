@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Will You Be My Valentine?</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #ffccf9, #ffb6c1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Comic Sans MS', 'Comic Neue', cursive;
+            overflow: hidden;
+        }
+
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(255, 51, 102, 0.25);
+            max-width: 90%;
+            width: 420px;
+            position: relative;
+        }
+
+        h1 {
+            color: #ff3366;
+            font-size: 1.9rem;
+        }
+
+        .cat {
+            font-size: 3rem;
+        }
+
+        .button-area {
+            position: relative;
+            height: 90px;
+            margin-top: 1.5rem;
+        }
+
+        button {
+            padding: 0.7rem 1.8rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        #yes-btn {
+            background: #ff3366;
+            color: white;
+            z-index: 10;
+        }
+
+        #yes-btn:hover {
+            transform: scale(1.1);
+        }
+
+        #no-btn {
+            background: #e0e0e0;
+            color: #555;
+            position: absolute;
+            z-index: 20;
+        }
+
+        .celebration {
+            display: none;
+            animation: fadeIn 1.5s;
+        }
+
+        img {
+            max-width: 100%;
+            border-radius: 15px;
+            margin-top: 1rem;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(100vh); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+
+<body>
+
+<audio id="bg-music" loop>
+    <!-- You can change this song -->
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_6c0e42b6b2.mp3" type="audio/mpeg">
+</audio>
+
+<div class="card">
+    <div class="cat">🐱</div>
+    <h1>Chidinma, will you be my Valentine? 💖</h1>
+
+    <div class="button-area" id="button-area">
+        <button id="yes-btn">YES 💘</button>
+        <button id="no-btn">NO 🙄</button>
+    </div>
+
+    <div class="celebration" id="celebration">
+        <h2>YAY!!! 🎉 I LOVE YOU 😍</h2>
+        <img src="https://i.ibb.co/fdwPcd21/source.gif" alt="I love you">
+    </div>
+</div>
+
+<script>
+    /* 🔐 PASSWORD (CHANGE IT HERE) */
+    const PASSWORD = "My Obim";
+
+    const entered = prompt("💌 Enter the secret password:");
+    if (entered !== PASSWORD) {
+        document.body.innerHTML = "<h2 style='color:white'>Access Denied 💔</h2>";
+        throw new Error("Wrong password");
+    }
+
+    const noBtn = document.getElementById("no-btn");
+    const yesBtn = document.getElementById("yes-btn");
+    const area = document.getElementById("button-area");
+    const music = document.getElementById("bg-music");
+
+    let attempts = 0;
+
+    function moveNo() {
+        const maxX = area.offsetWidth - noBtn.offsetWidth;
+        const maxY = area.offsetHeight - noBtn.offsetHeight;
+
+        noBtn.style.left = Math.random() * maxX + "px";
+        noBtn.style.top = Math.random() * maxY + "px";
+    }
+
+    noBtn.addEventListener("mouseenter", moveNo);
+    noBtn.addEventListener("touchstart", moveNo);
+
+    noBtn.addEventListener("click", () => {
+        attempts++;
+        moveNo();
+        if (attempts >= 3) {
+            alert("😂 Stop fighting destiny and click YES!");
+        }
+    });
+
+    yesBtn.addEventListener("click", () => {
+        area.style.display = "none";
+        document.getElementById("celebration").style.display = "block";
+        music.play();
+        confetti();
+    });
+
+    function confetti() {
+        for (let i = 0; i < 120; i++) {
+            const c = document.createElement("div");
+            c.className = "confetti";
+            c.style.left = Math.random() * 100 + "vw";
+            c.style.backgroundColor = ["#ff3366", "#ffcc00", "#33ccff"][Math.floor(Math.random()*3)];
+            c.style.animationDuration = Math.random() * 3 + 2 + "s";
+            document.body.appendChild(c);
+            setTimeout(() => c.remove(), 5000);
+        }
+    }
+</script>
+
+</body>
+</html>
